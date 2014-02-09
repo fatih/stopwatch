@@ -2,7 +2,10 @@
 // functionality.
 package stopwatch
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type StopWatch struct {
 	start time.Time
@@ -24,3 +27,8 @@ func (s *StopWatch) Stop()  {}
 func (s *StopWatch) Pause() {}
 func (s *StopWatch) Reset() {}
 func (s *StopWatch) Lap()   {}
+
+func (s *StopWatch) String() string {
+	return fmt.Sprintf("[start: %s current: %s elapsed: %s]\n",
+		s.start.Format(time.Stamp), time.Now().Format(time.Stamp), s.ElapsedTime())
+}
