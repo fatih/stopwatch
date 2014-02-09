@@ -1,6 +1,6 @@
 # Stopwatch [![GoDoc](https://godoc.org/github.com/fatih/stopwatch?status.png)](http://godoc.org/github.com/fatih/stopwatch) [![Build Status](https://travis-ci.org/fatih/stopwatch.png)](https://travis-ci.org/fatih/stopwatch)
 
-Stopwatch implements common functions of a stop-watch.
+Stopwatch implements the common functions of a stop-watch.
 
 For usage see examples below or click on the godoc badge.
 
