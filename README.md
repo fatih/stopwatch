@@ -10,6 +10,25 @@ For usage see examples below or click on the godoc badge.
 go get github.com/fatih/stopwatch
 ```
 
+## Example
+
+```go
+// create a set with zero items
+sw := stopwatch.New()
+
+// get elapsed duration at any time
+duration := sw.ElapsedTime()
+
+// reset the stopwatch
+sw.Reset()
+
+// string representation of stopwatch
+fmt.Printf("stopwatch: %s", sw)
+
+```
+
+#### Basic Operations
+
 ## Credits
 
  * [Fatih Arslan](https://github.com/fatih)
