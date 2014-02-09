@@ -1,8 +1,10 @@
 # Stopwatch [![GoDoc](https://godoc.org/github.com/fatih/stopwatch?status.png)](http://godoc.org/github.com/fatih/stopwatch) [![Build Status](https://travis-ci.org/fatih/stopwatch.png)](https://travis-ci.org/fatih/stopwatch)
 
-Stopwatch implements the common functions of a stop-watch.
-
-For usage see examples below or click on the godoc badge.
+Stopwatch implements a common set of functions of a stop-watch. It's handy for
+calculating process times between function calls, logging times and many other
+use cases. Feel free to fork and send a pull request for any
+changes/improvements. For usage see examples below or click on the godoc
+badge.
 
 ## Install
 
@@ -13,7 +15,7 @@ go get github.com/fatih/stopwatch
 ## Example
 
 ```go
-// create a set with zero items
+// create a new stopwatch, the timer starts immediately.
 sw := stopwatch.New()
 
 // get elapsed duration at any time
@@ -24,10 +26,7 @@ sw.Reset()
 
 // string representation of stopwatch
 fmt.Printf("stopwatch: %s", sw)
-
 ```
-
-#### Basic Operations
 
 ## Credits
 
