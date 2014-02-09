@@ -25,8 +25,13 @@ func (s *StopWatch) ElapsedTime() time.Duration {
 
 func (s *StopWatch) Stop()  {}
 func (s *StopWatch) Pause() {}
-func (s *StopWatch) Reset() {}
-func (s *StopWatch) Lap()   {}
+
+// Reset resets the timer. It needs to be started again with the Start() method
+func (s *StopWatch) Reset() {
+	s.start = time.Time{}
+}
+
+func (s *StopWatch) Lap() {}
 
 func (s *StopWatch) String() string {
 	return fmt.Sprintf("[start: %s current: %s elapsed: %s]\n",

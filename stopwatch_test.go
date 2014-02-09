@@ -46,8 +46,17 @@ func TestStopWatch_ElapsedTime(t *testing.T) {
 
 func TestStopWatch_Stop(t *testing.T)  {}
 func TestStopWatch_Pause(t *testing.T) {}
-func TestStopWatch_Reset(t *testing.T) {}
-func TestStopWatch_Lap(t *testing.T)   {}
+
+func TestStopWatch_Reset(t *testing.T) {
+	sw := New()
+	sw.Reset()
+
+	if !sw.start.IsZero() {
+		t.Error("Reset should reset the initial start timer")
+	}
+}
+
+func TestStopWatch_Lap(t *testing.T) {}
 
 // return rounded version of x with prec precision.
 func RoundFloat(x float64, prec int) float64 {
