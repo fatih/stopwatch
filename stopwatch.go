@@ -21,21 +21,19 @@ func New() *Stopwatch {
 
 // Starts creates a new Stopwatch which starts immediately.
 func Start() *Stopwatch {
-	s := &Stopwatch{}
-	s.init()
+	s := &Stopwatch{
+		start: time.Now(),
+		lap:   time.Now(),
+		laps:  make([]time.Duration, 0),
+	}
 	return s
 }
 
 // After creates a new Stopwatch which starts after the given duration.
 func After(t time.Duration) *Stopwatch {
 	s := &Stopwatch{}
-	time.AfterFunc(t, s.init)
+	time.AfterFunc(t, s.Start)
 	return s
-}
-
-func (s *Stopwatch) init() {
-	s.start, s.lap = time.Now(), time.Now()
-	s.laps = make([]time.Duration, 0)
 }
 
 func (s *Stopwatch) isStopped() bool {
@@ -84,7 +82,7 @@ func (s *Stopwatch) Stop() {
 // timer. If a Reset() was invoked it starts a new session.
 func (s *Stopwatch) Start() {
 	if s.isResetted() {
-		s.init()
+		*s = *Start()
 	} else { //stopped
 		s.start = s.start.Add(time.Since(s.stop))
 	}
