@@ -39,7 +39,7 @@ func After(t time.Duration) *Stopwatch {
 // IsStopped shows whether the stopwatch is stopped or not.
 func (s *Stopwatch) IsStopped() bool { return s.stop.After(s.start) }
 
-// IsReseted shows whether the stopwatch is rested or no.
+// IsReseted shows whether the stopwatch is reseted or not.
 func (s *Stopwatch) IsReseted() bool { return s.start.IsZero() }
 
 // ElapsedTime returns the duration between the start and current time.
