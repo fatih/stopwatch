@@ -27,9 +27,14 @@ duration2 := s.ElapsedTime()
 
 // create a new stopwatch, but do not start immediately
 s := stopwatch.New()
-
 // ... start it later
 s.Start()
+
+// start a stopwatch after a certain time
+s := stopwatch.After(2 * time.Second)
+d1 := s.ElapsedTime() // d1 is zero here
+// after two seconds it works
+d2 := s.ElapsedTime()
 ```
 
 ### Resume/Stop
