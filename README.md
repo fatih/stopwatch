@@ -25,7 +25,6 @@ duration := s.ElapsedTime()
 // some work ... another elasped time
 duration2 := s.ElapsedTime()
 
-
 // create a new stopwatch, but do not start immediately
 s := stopwatch.New()
 

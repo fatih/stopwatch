@@ -17,10 +17,17 @@ func New() *Stopwatch {
 	return &Stopwatch{}
 }
 
-// Starts creates a new Stopwatch that starts the timer immediately.
+// Starts creates a new Stopwatch which starts immediately.
 func Start() *Stopwatch {
 	s := &Stopwatch{}
 	s.init()
+	return s
+}
+
+// After creates a new Stopwatch which starts after the given duration.
+func After(t time.Duration) *Stopwatch {
+	s := &Stopwatch{}
+	time.AfterFunc(t, s.init)
 	return s
 }
 

@@ -30,6 +30,32 @@ func TestStopwatchStart(t *testing.T) {
 	}
 }
 
+func TestStopwatchAfter(t *testing.T) {
+	a := After(time.Millisecond * 30)
+
+	if a == nil {
+		t.Error("After returns a nil struct")
+	}
+
+	if !a.start.IsZero() {
+		t.Error("After time returns a non zero time.Time type")
+	}
+
+	time.Sleep(time.Millisecond * 10)
+	ms1 := int(RoundFloat(float64(a.ElapsedTime()/time.Millisecond), 0))
+
+	if ms1 != 0 {
+		t.Errorf("After: got: %d expected: 0\n", ms1)
+	}
+
+	time.Sleep(time.Millisecond * 30)
+	ms2 := int(RoundFloat(float64(a.ElapsedTime()/time.Millisecond), 0))
+	if ms2 != 10 {
+		t.Errorf("After: got: %d expected: %d\n", ms2, 20)
+	}
+
+}
+
 func TestStopwatch_ElapsedTime(t *testing.T) {
 	sw := Start()
 
