@@ -8,9 +8,8 @@ import (
 )
 
 type Stopwatch struct {
-	start   time.Time
-	stop    time.Time
-	elapsed time.Duration
+	start time.Time
+	stop  time.Time
 }
 
 // New creates a new Stopwatch that starts the timer immediately.
@@ -22,13 +21,15 @@ func New() *Stopwatch {
 
 // ElapsedTime returns the duration between the start and current time.
 func (s *Stopwatch) ElapsedTime() time.Duration {
-	s.elapsed = time.Since(s.start)
-	return s.elapsed
+	if s.stop.After(s.start) {
+		return s.stop.Sub(s.start)
+	}
+
+	return time.Since(s.start)
 }
 
 // Stop stops the timer. To resume the timer Start() needs to be called again.
 func (s *Stopwatch) Stop() {
-	s.elapsed = s.ElapsedTime()
 	s.stop = time.Now()
 }
 

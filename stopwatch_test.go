@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestStopWatch(t *testing.T) {
+func TestStopwatch(t *testing.T) {
 	sw := New()
 
 	if sw == nil {
@@ -18,7 +18,7 @@ func TestStopWatch(t *testing.T) {
 	}
 }
 
-func TestStopWatch_ElapsedTime(t *testing.T) {
+func TestStopwatch_ElapsedTime(t *testing.T) {
 	sw := New()
 
 	elapsedDurations := make([]time.Duration, 0)
@@ -38,25 +38,54 @@ func TestStopWatch_ElapsedTime(t *testing.T) {
 		n := (i + 1) * 100
 		if ms != n {
 			t.Errorf("ElapsedTime: got: %d expected: %d\n", ms, n)
-
 		}
 	}
 
 }
 
-func TestStopWatch_Stop(t *testing.T)  {}
-func TestStopWatch_Pause(t *testing.T) {}
+func TestStopwatch_Start(t *testing.T) {
+	sw := New()
+	time.Sleep(time.Millisecond * 300)
+	sw.Stop()
+	time.Sleep(time.Millisecond * 600) // should be not counted
+	sw.Start()
+	time.Sleep(time.Millisecond * 300)
 
-func TestStopWatch_Reset(t *testing.T) {
+	ms := int(RoundFloat(float64(sw.ElapsedTime()/time.Millisecond), 0))
+	if ms != 600 {
+		t.Errorf("Start: got: %d expected: %d\n", ms, 600)
+	}
+}
+
+func TestStopwatch_Stop(t *testing.T) {
+	sw := New()
+	time.Sleep(time.Millisecond * 300)
+	sw.Stop()
+	time.Sleep(time.Millisecond * 200)
+
+	ms := int(RoundFloat(float64(sw.ElapsedTime()/time.Millisecond), 0))
+	if ms != 300 {
+		t.Errorf("Stop: got: %d expected: %d\n", ms, 300)
+	}
+}
+
+func TestStopwatch_Reset(t *testing.T) {
 	sw := New()
 	sw.Reset()
 
 	if !sw.start.IsZero() {
 		t.Error("Reset should reset the initial start timer")
 	}
+
+	sw.Start()
+	time.Sleep(time.Millisecond * 400)
+	ms := int(RoundFloat(float64(sw.ElapsedTime()/time.Millisecond), 0))
+	if ms != 400 {
+		t.Errorf("Reset: got: %d expected: %d\n", ms, 400)
+	}
 }
 
-func TestStopWatch_Lap(t *testing.T) {}
+func TestStopwatch_Lap(t *testing.T) {}
 
 // return rounded version of x with prec precision.
 func RoundFloat(x float64, prec int) float64 {
