@@ -1,8 +1,16 @@
 # Stopwatch [![GoDoc](https://godoc.org/github.com/fatih/stopwatch?status.png)](http://godoc.org/github.com/fatih/stopwatch) [![Build Status](https://travis-ci.org/fatih/stopwatch.png)](https://travis-ci.org/fatih/stopwatch)
 
-Stopwatch implements a common set of functions of a stop-watch. It's handy for
-calculating process times between function calls, logging times and many other
-use cases. Feel free to fork and send a pull request for any
+Stopwatch implements a simple stopwatch functionality. Features :
+
+* Three possible ways to create a Stopwatch. Initialized(starts immediately),
+uninitialized(starting is manually) or after a certain time.
+* Start/Stop at any time or Reset.
+* Take an individual Lap time
+* Stores the list of each Lap
+* Satisfies JSON Marshaler/Unmarshaler interface
+* Handy methods like Print()/Log() to log a function execution time with one step.
+
+Feel free to fork and send a pull request for any
 changes/improvements. For usage see examples below or click on the godoc
 badge.
 
@@ -22,7 +30,7 @@ s := stopwatch.Start()
 
 // get elapsed duration at any time
 duration := s.ElapsedTime()
-// some work ... another elasped time
+// some work ... another elapsed time
 duration2 := s.ElapsedTime()
 
 // create a new stopwatch, but do not start immediately
@@ -60,7 +68,7 @@ lap3 := s.Lap()
 // get a list of all lap durations
 list := s.Laps()
 
-// lap returns zero duration if the timer is stopped/resetted
+// lap returns zero duration if the timer is stopped/reseted
 s.Stop()
 lap4 := s.Lap() // lap4 == time.Duration(0)
 ```

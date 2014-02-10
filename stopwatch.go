@@ -36,13 +36,8 @@ func After(t time.Duration) *Stopwatch {
 	return s
 }
 
-func (s *Stopwatch) isStopped() bool {
-	return s.stop.After(s.start)
-}
-
-func (s *Stopwatch) isResetted() bool {
-	return s.start.IsZero()
-}
+func (s *Stopwatch) isStopped() bool { return s.stop.After(s.start) }
+func (s *Stopwatch) isReseted() bool { return s.start.IsZero() }
 
 // ElapsedTime returns the duration between the start and current time.
 func (s *Stopwatch) ElapsedTime() time.Duration {
@@ -50,7 +45,7 @@ func (s *Stopwatch) ElapsedTime() time.Duration {
 		return s.stop.Sub(s.start)
 	}
 
-	if s.isResetted() {
+	if s.isReseted() {
 		return time.Duration(0)
 	}
 
@@ -81,7 +76,7 @@ func (s *Stopwatch) Stop() {
 // Start resumes or starts the timer. If a Stop() was invoked it resumes the
 // timer. If a Reset() was invoked it starts a new session.
 func (s *Stopwatch) Start() {
-	if s.isResetted() {
+	if s.isReseted() {
 		*s = *Start()
 	} else { //stopped
 		s.start = s.start.Add(time.Since(s.stop))
@@ -98,7 +93,7 @@ func (s *Stopwatch) Reset() {
 // since the latest lap.
 func (s *Stopwatch) Lap() time.Duration {
 	// There is no lap if the timer is resetted or stoped
-	if s.isStopped() || s.isResetted() {
+	if s.isStopped() || s.isReseted() {
 		return time.Duration(0)
 	}
 
