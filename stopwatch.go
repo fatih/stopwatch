@@ -7,33 +7,49 @@ import (
 	"time"
 )
 
-type StopWatch struct {
-	start time.Time
+type Stopwatch struct {
+	start   time.Time
+	stop    time.Time
+	elapsed time.Duration
 }
 
-// New creates a new StopWatch that starts the timer immediately.
-func New() *StopWatch {
-	return &StopWatch{
+// New creates a new Stopwatch that starts the timer immediately.
+func New() *Stopwatch {
+	return &Stopwatch{
 		start: time.Now(),
 	}
 }
 
 // ElapsedTime returns the duration between the start and current time.
-func (s *StopWatch) ElapsedTime() time.Duration {
-	return time.Since(s.start)
+func (s *Stopwatch) ElapsedTime() time.Duration {
+	s.elapsed = time.Since(s.start)
+	return s.elapsed
 }
 
-func (s *StopWatch) Stop()  {}
-func (s *StopWatch) Pause() {}
+// Stop stops the timer. To resume the timer Start() needs to be called again.
+func (s *Stopwatch) Stop() {
+	s.elapsed = s.ElapsedTime()
+	s.stop = time.Now()
+}
+
+// Start resumes or starts the timer. If a Stop() was invoked it resumes the
+// timer. If a Reset() was invoked it starts a new session.
+func (s *Stopwatch) Start() {
+	if s.start.IsZero() { // reseted
+		s.start = time.Now()
+	} else { //stopped
+		s.start = s.start.Add(time.Since(s.stop))
+	}
+}
 
 // Reset resets the timer. It needs to be started again with the Start() method
-func (s *StopWatch) Reset() {
+func (s *Stopwatch) Reset() {
 	s.start = time.Time{}
 }
 
-func (s *StopWatch) Lap() {}
+func (s *Stopwatch) Lap() {}
 
-func (s *StopWatch) String() string {
+func (s *Stopwatch) String() string {
 	return fmt.Sprintf("[start: %s current: %s elapsed: %s]\n",
 		s.start.Format(time.Stamp), time.Now().Format(time.Stamp), s.ElapsedTime())
 }
