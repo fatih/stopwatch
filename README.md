@@ -70,6 +70,10 @@ lap4 := s.Lap() // lap4 == time.Duration(0)
 // String representation of stopwatch
 fmt.Printf("stopwatch: %s", s)
 
+// find out how long a function lasts
+// outputs when the function returns:  myFunction - elapsed: 2.000629842s
+defer Start().Print("myfunction")
+
 // Marshal to a JSON object.
 type API struct {
     Name      string     `json:"name"`

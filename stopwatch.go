@@ -4,6 +4,7 @@ package stopwatch
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"time"
 )
@@ -56,6 +57,22 @@ func (s *Stopwatch) ElapsedTime() time.Duration {
 	}
 
 	return time.Since(s.start)
+}
+
+// Print calls fmt.Printf() with the given string and the elapsed time attached.
+// Useful to use with a defer statement.
+// Example : defer Start().Print("myFunction")
+// Output  :  myFunction - elapsed: 2.000629842s
+func (s *Stopwatch) Print(msg string) {
+	fmt.Printf("%s - elapsed: %s\n", msg, s.ElapsedTime().String())
+}
+
+// Log calls log.Printf() with the given string and the elapsed time attached.
+// Useful to use with a defer statement.
+// Example : defer Start().Log("myFunction")
+// Output: 2014/02/10 00:44:56 myFunction - elapsed: 2.000169591s
+func (s *Stopwatch) Log(msg string) {
+	log.Printf("%s - elapsed: %s\n", msg, s.ElapsedTime().String())
 }
 
 // Stop stops the timer. To resume the timer Start() needs to be called again.
