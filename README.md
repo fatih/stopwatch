@@ -24,6 +24,20 @@ duration := sw.ElapsedTime()
 // reset the stopwatch
 sw.Reset()
 
+// .. or stop the stopwatch
+sw.Stop()
+
+// resume the timer after a reset/stop
+sw.Start()
+
+// create a lap
+lap1 := sw.Lap()
+lap2 := sw.Lap()
+lap3 := sw.Lap()
+
+// get a list of all lap durations
+list := sw.Laps()
+
 // string representation of stopwatch
 fmt.Printf("stopwatch: %s", sw)
 ```
