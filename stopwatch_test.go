@@ -41,7 +41,7 @@ func TestStopwatch_ElapsedTime(t *testing.T) {
 		})
 	}
 
-	time.Sleep(time.Second) // now collect all elapsed times
+	time.Sleep(time.Millisecond * 100) // now collect all elapsed times
 
 	// Better tests are welcome :)
 	for i, elapsed := range elapsedDurations {
@@ -51,6 +51,12 @@ func TestStopwatch_ElapsedTime(t *testing.T) {
 		if ms != n {
 			t.Errorf("ElapsedTime: got: %d expected: %d\n", ms, n)
 		}
+	}
+
+	n := New()
+	nl := n.ElapsedTime()
+	if nl != time.Duration(0) {
+		t.Errorf("ElapsedTime: got: %d, expected: 0\n", nl)
 	}
 
 }
