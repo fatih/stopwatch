@@ -1,6 +1,7 @@
 package stopwatch
 
 import (
+	"encoding/json"
 	"strconv"
 	"testing"
 	"time"
@@ -166,6 +167,37 @@ func TestStopwatch_Lap(t *testing.T) {
 	u := n.Lap()
 	if u != time.Duration(0) {
 		t.Errorf("Lap: stopwatch is resetted but lap returns %d\n", u)
+	}
+
+}
+
+func TestStopwatch_JSON(t *testing.T) {
+	type API struct {
+		Name      string     `json:"name"`
+		Stopwatch *Stopwatch `json:"elapsed"`
+	}
+
+	a := API{
+		Name:      "testData",
+		Stopwatch: Start(),
+	}
+
+	time.Sleep(time.Millisecond * 20)
+
+	b, err := json.Marshal(a)
+	if err != nil {
+		t.Errorf("error: %s\n", err)
+	}
+
+	v := new(API)
+	err = json.Unmarshal(b, v)
+	if err != nil {
+		t.Errorf("error: %s\n", err)
+	}
+
+	ms := int(RoundFloat(float64(v.Stopwatch.ElapsedTime()/time.Millisecond), 0))
+	if ms != 20 {
+		t.Errorf("json: got: %d, expected: %d", ms, 20)
 	}
 
 }

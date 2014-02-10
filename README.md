@@ -67,8 +67,40 @@ lap4 := s.Lap() // lap4 == time.Duration(0)
 
 ### Helpers
 ```go
-// string representation of stopwatch
+// String representation of stopwatch
 fmt.Printf("stopwatch: %s", s)
+
+// Marshal to a JSON object.
+type API struct {
+    Name      string     `json:"name"`
+    Stopwatch *Stopwatch `json:"elapsed"`
+}
+
+a := API{
+    Name:      "Example API Call",
+    Stopwatch: Start(),
+}
+
+// do some work ...
+time.Sleep(time.Millisecond * 20)
+
+b, err := json.Marshal(a)
+if err != nil {
+    t.Errorf("error: %s\n", err)
+}
+
+// output: {"name":"Example API Call","elapsed":"21.351657ms"}
+fmt.Println(string(b))
+
+// Unmarshal from a JSON object.
+v := new(API)
+err = json.Unmarshal(b, v)
+if err != nil {
+    t.Errorf("error: %s\n", err)
+}
+
+// Get back our elapsed time
+duration := v.Stopwatch.ElapsedTime()
 ```
 
 ## Credits

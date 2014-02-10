@@ -4,6 +4,7 @@ package stopwatch
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -72,7 +73,7 @@ func (s *Stopwatch) Start() {
 	}
 }
 
-// Reset resets the timer. It needs to be started again with the Start() method
+// Reset resets the timer. It needs to be started again with the Start() method.
 func (s *Stopwatch) Reset() {
 	s.start, s.stop, s.lap = time.Time{}, time.Time{}, time.Time{}
 	s.laps = nil
@@ -93,13 +94,35 @@ func (s *Stopwatch) Lap() time.Duration {
 	return lap
 }
 
-// Laps returns the list of all laps
+// Laps returns the list of all laps.
 func (s *Stopwatch) Laps() []time.Duration {
 	return s.laps
 }
 
 // String representation of a single Stopwatch instance.
 func (s *Stopwatch) String() string {
-	return fmt.Sprintf("[start: %s current: %s elapsed: %s]\n",
+	return fmt.Sprintf("[start: %s current: %s elapsed: %s]",
 		s.start.Format(time.Stamp), time.Now().Format(time.Stamp), s.ElapsedTime())
+}
+
+// MarshalJSON implements the json.Marshaler interface. The elapsed time is
+// quoted as a string and is in the form "72h3m0.5s". For more info please
+// refer to time.Duration.String().
+func (s *Stopwatch) MarshalJSON() ([]byte, error) {
+	return []byte(`"` + s.ElapsedTime().String() + `"`), nil
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface. The elapsed time
+// is expected to be a string that can be successful parsed with
+// time.ParseDuration.
+func (s *Stopwatch) UnmarshalJSON(data []byte) (err error) {
+	unquoted := strings.Replace(string(data), "\"", "", -1)
+	d, err := time.ParseDuration(unquoted)
+	if err != nil {
+		return err
+	}
+
+	// set the start time based on the elapsed time
+	s.start = time.Now().Add(-d)
+	return nil
 }
