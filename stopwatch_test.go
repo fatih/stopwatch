@@ -6,11 +6,23 @@ import (
 	"time"
 )
 
-func TestStopwatch(t *testing.T) {
+func TestStopwatchNew(t *testing.T) {
 	sw := New()
 
 	if sw == nil {
 		t.Error("New returns a nil struct")
+	}
+
+	if !sw.start.IsZero() {
+		t.Error("New time returns a non zero time.Time type")
+	}
+}
+
+func TestStopwatchStart(t *testing.T) {
+	sw := Start()
+
+	if sw == nil {
+		t.Error("Start returns a nil struct")
 	}
 
 	if sw.start.IsZero() {
@@ -19,7 +31,7 @@ func TestStopwatch(t *testing.T) {
 }
 
 func TestStopwatch_ElapsedTime(t *testing.T) {
-	sw := New()
+	sw := Start()
 
 	elapsedDurations := make([]time.Duration, 0)
 
@@ -44,7 +56,7 @@ func TestStopwatch_ElapsedTime(t *testing.T) {
 }
 
 func TestStopwatch_Start(t *testing.T) {
-	sw := New()
+	sw := Start()
 	time.Sleep(time.Millisecond * 30)
 	sw.Stop()
 	time.Sleep(time.Millisecond * 60) // should be not counted
@@ -58,7 +70,7 @@ func TestStopwatch_Start(t *testing.T) {
 }
 
 func TestStopwatch_Stop(t *testing.T) {
-	sw := New()
+	sw := Start()
 	time.Sleep(time.Millisecond * 30)
 	sw.Stop()
 	time.Sleep(time.Millisecond * 20)
@@ -70,7 +82,7 @@ func TestStopwatch_Stop(t *testing.T) {
 }
 
 func TestStopwatch_Reset(t *testing.T) {
-	sw := New()
+	sw := Start()
 	sw.Reset()
 
 	if !sw.start.IsZero() {
@@ -86,7 +98,7 @@ func TestStopwatch_Reset(t *testing.T) {
 }
 
 func TestStopwatch_Lap(t *testing.T) {
-	sw := New()
+	sw := Start()
 
 	time.Sleep(time.Millisecond * 10)
 	lap1 := sw.Lap()
@@ -116,7 +128,7 @@ func TestStopwatch_Lap(t *testing.T) {
 		t.Errorf("Lap: stopwatch is stopped but lap returns %d\n", l)
 	}
 
-	n := New()
+	n := Start()
 	n.Reset()
 
 	u := n.Lap()

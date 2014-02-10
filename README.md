@@ -18,48 +18,53 @@ go get github.com/fatih/stopwatch
 
 ```go
 // create a new stopwatch, the timer starts immediately.
-sw := stopwatch.New()
+s := stopwatch.Start()
 
 // get elapsed duration at any time
-duration := sw.ElapsedTime()
+duration := s.ElapsedTime()
+// some work ... another elasped time
+duration2 := s.ElapsedTime()
 
-// some work ...
-duration2 := sw.ElapsedTime()
+
+// create a new stopwatch, but do not start immediately
+s := stopwatch.New()
+
+// ... start it later
+s.Start()
 ```
 
 ### Resume/Stop
 
 ```go
 // reset the stopwatch
-sw.Reset()
+s.Reset()
 // .. or stop the stopwatch
-sw.Stop()
+s.Stop()
 
 // resume the timer after a reset/stop
-sw.Start()
+s.Start()
 ```
 
 ### Lap
 
 ```go
 // create a lap
-lap1 := sw.Lap()
-lap2 := sw.Lap()
-lap3 := sw.Lap()
+lap1 := s.Lap()
+lap2 := s.Lap()
+lap3 := s.Lap()
 
 // get a list of all lap durations
-list := sw.Laps()
+list := s.Laps()
 
 // lap returns zero duration if the timer is stopped/resetted
-sw.Stop()
-
-lap4 := sw.Lap() // lap4 == time.Duration(0)
+s.Stop()
+lap4 := s.Lap() // lap4 == time.Duration(0)
 ```
 
 ### Helpers
 ```go
 // string representation of stopwatch
-fmt.Printf("stopwatch: %s", sw)
+fmt.Printf("stopwatch: %s", s)
 ```
 
 ## Credits

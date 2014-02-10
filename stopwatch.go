@@ -12,8 +12,13 @@ type Stopwatch struct {
 	laps             []time.Duration
 }
 
-// New creates a new Stopwatch that starts the timer immediately.
+// New creates a new Stopwatch. To start the stopwatch Start() should be invoked.
 func New() *Stopwatch {
+	return &Stopwatch{}
+}
+
+// Starts creates a new Stopwatch that starts the timer immediately.
+func Start() *Stopwatch {
 	s := &Stopwatch{}
 	s.init()
 	return s
