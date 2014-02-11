@@ -2,8 +2,7 @@
 
 Stopwatch implements a simple stopwatch functionality. Features :
 
-* Three possible ways to create a Stopwatch. Initialized(starts immediately),
-uninitialized(starting is manually) or after a certain time.
+* Three possible ways to create a Stopwatch. Initialized or uninitialized.
 * Start/Stop at any time or Reset.
 * Take an individual Lap time
 * Stores the list of each Lap
@@ -26,7 +25,7 @@ go get github.com/fatih/stopwatch
 
 ```go
 // create a new stopwatch, the timer starts immediately.
-s := stopwatch.Start()
+s := stopwatch.Start(0)
 
 // get elapsed duration at any time
 duration := s.ElapsedTime()
@@ -39,7 +38,7 @@ s := stopwatch.New()
 s.Start()
 
 // start a stopwatch after a certain time
-s := stopwatch.After(2 * time.Second)
+s := stopwatch.Start(2 * time.Second)
 d1 := s.ElapsedTime() // d1 is zero here
 // after two seconds it works
 d2 := s.ElapsedTime()
@@ -80,7 +79,7 @@ fmt.Printf("stopwatch: %s", s)
 
 // find out how long a function lasts
 // outputs when the function returns:  myFunction - elapsed: 2.000629842s
-defer Start().Print("myfunction")
+defer Start(0).Print("myfunction")
 
 // Marshal to a JSON object.
 type API struct {
@@ -90,7 +89,7 @@ type API struct {
 
 a := API{
     Name:      "Example API Call",
-    Stopwatch: Start(),
+    Stopwatch: Start(0),
 }
 
 // do some work ...
