@@ -20,7 +20,7 @@ func TestStopwatchNew(t *testing.T) {
 }
 
 func TestStopwatchStart(t *testing.T) {
-	sw := Start()
+	sw := Start(0)
 
 	if sw == nil {
 		t.Error("Start returns a nil struct")
@@ -32,20 +32,19 @@ func TestStopwatchStart(t *testing.T) {
 }
 
 func TestStopwatchAfter(t *testing.T) {
-	a := After(time.Millisecond * 30)
+	a := Start(time.Millisecond * 30)
 
 	if a == nil {
 		t.Error("After returns a nil struct")
 	}
 
-	if !a.start.IsZero() {
-		t.Error("After time returns a non zero time.Time type")
+	if !a.start.After(time.Now()) {
+		t.Error("After should create a future based start time.")
 	}
 
 	time.Sleep(time.Millisecond * 10)
 	ms1 := int(RoundFloat(float64(a.ElapsedTime()/time.Millisecond), 0))
-
-	if ms1 != 0 {
+	if ms1 != -20 {
 		t.Errorf("After: got: %d expected: 0\n", ms1)
 	}
 
@@ -58,7 +57,7 @@ func TestStopwatchAfter(t *testing.T) {
 }
 
 func TestStopwatch_ElapsedTime(t *testing.T) {
-	sw := Start()
+	sw := Start(0)
 
 	elapsedDurations := make([]time.Duration, 0)
 
@@ -89,11 +88,11 @@ func TestStopwatch_ElapsedTime(t *testing.T) {
 }
 
 func TestStopwatch_Start(t *testing.T) {
-	sw := Start()
+	sw := Start(0)
 	time.Sleep(time.Millisecond * 30)
 	sw.Stop()
 	time.Sleep(time.Millisecond * 60) // should be not counted
-	sw.Start()
+	sw.Start(0)
 	time.Sleep(time.Millisecond * 30)
 
 	ms := int(RoundFloat(float64(sw.ElapsedTime()/time.Millisecond), 0))
@@ -103,7 +102,7 @@ func TestStopwatch_Start(t *testing.T) {
 }
 
 func TestStopwatch_Stop(t *testing.T) {
-	sw := Start()
+	sw := Start(0)
 	time.Sleep(time.Millisecond * 30)
 	sw.Stop()
 	time.Sleep(time.Millisecond * 20)
@@ -115,14 +114,14 @@ func TestStopwatch_Stop(t *testing.T) {
 }
 
 func TestStopwatch_Reset(t *testing.T) {
-	sw := Start()
+	sw := Start(0)
 	sw.Reset()
 
 	if !sw.start.IsZero() {
 		t.Error("Reset should reset the initial start timer")
 	}
 
-	sw.Start()
+	sw.Start(0)
 	time.Sleep(time.Millisecond * 40)
 	ms := int(RoundFloat(float64(sw.ElapsedTime()/time.Millisecond), 0))
 	if ms != 40 {
@@ -131,7 +130,7 @@ func TestStopwatch_Reset(t *testing.T) {
 }
 
 func TestStopwatch_Lap(t *testing.T) {
-	sw := Start()
+	sw := Start(0)
 
 	time.Sleep(time.Millisecond * 10)
 	lap1 := sw.Lap()
@@ -161,7 +160,7 @@ func TestStopwatch_Lap(t *testing.T) {
 		t.Errorf("Lap: stopwatch is stopped but lap returns %d\n", l)
 	}
 
-	n := Start()
+	n := Start(0)
 	n.Reset()
 
 	u := n.Lap()
@@ -179,7 +178,7 @@ func TestStopwatch_JSON(t *testing.T) {
 
 	a := API{
 		Name:      "testData",
-		Stopwatch: Start(),
+		Stopwatch: Start(0),
 	}
 
 	time.Sleep(time.Millisecond * 20)

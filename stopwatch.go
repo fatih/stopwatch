@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+// Stopwatch implements the stopwatch functionality. It is not threadsafe by
+// design and should be protected when there is a need for.
 type Stopwatch struct {
 	start, stop, lap time.Time
 	laps             []time.Duration
@@ -19,20 +21,15 @@ func New() *Stopwatch {
 	return &Stopwatch{}
 }
 
-// Starts creates a new Stopwatch which starts immediately.
-func Start() *Stopwatch {
+// Start creates a new stopwatch with starting time offset by a user defined
+// value. Negative offsets result in a countdown prior to the start of the
+// stopwatch. A zero offset starts the stopwatch immediately.
+func Start(offset time.Duration) *Stopwatch {
 	s := &Stopwatch{
-		start: time.Now(),
-		lap:   time.Now(),
+		start: time.Now().Add(offset),
+		lap:   time.Now().Add(offset),
 		laps:  make([]time.Duration, 0),
 	}
-	return s
-}
-
-// After creates a new Stopwatch which starts after the given duration.
-func After(t time.Duration) *Stopwatch {
-	s := &Stopwatch{}
-	time.AfterFunc(t, s.Start)
 	return s
 }
 
@@ -77,16 +74,18 @@ func (s *Stopwatch) Stop() {
 }
 
 // Start resumes or starts the timer. If a Stop() was invoked it resumes the
-// timer. If a Reset() was invoked it starts a new session.
-func (s *Stopwatch) Start() {
+// timer. If a Reset() was invoked it starts a new session with the given
+// offset.
+func (s *Stopwatch) Start(offset time.Duration) {
 	if s.IsReseted() {
-		*s = *Start()
+		*s = *Start(offset)
 	} else { //stopped
 		s.start = s.start.Add(time.Since(s.stop))
 	}
 }
 
-// Reset resets the timer. It needs to be started again with the Start() method.
+// Reset resets the timer. It needs to be started again with the Start()
+// method.
 func (s *Stopwatch) Reset() {
 	s.start, s.stop, s.lap = time.Time{}, time.Time{}, time.Time{}
 	s.laps = nil
@@ -107,9 +106,11 @@ func (s *Stopwatch) Lap() time.Duration {
 	return lap
 }
 
-// Laps returns the list of all laps.
+// Laps returns a slice of all completed laps.
 func (s *Stopwatch) Laps() []time.Duration {
-	return s.laps
+	laps := make([]time.Duration, len(s.laps))
+	copy(laps, s.laps)
+	return laps
 }
 
 // String representation of a single Stopwatch instance.
