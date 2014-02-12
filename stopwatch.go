@@ -27,9 +27,10 @@ func New() *Stopwatch {
 // value. Negative offsets result in a countdown prior to the start of the
 // stopwatch. A zero offset starts the stopwatch immediately.
 func Start(offset time.Duration) *Stopwatch {
+	t := time.Now().Add(offset)
 	s := &Stopwatch{
-		start: time.Now().Add(offset),
-		lap:   time.Now().Add(offset),
+		start: t,
+		lap:   t,
 		laps:  make([]time.Duration, 0),
 	}
 	return s
@@ -59,7 +60,7 @@ func (s *Stopwatch) ElapsedTime() time.Duration {
 // Example : defer Start().Print("myFunction")
 // Output  :  myFunction - elapsed: 2.000629842s
 func (s *Stopwatch) Print(msg string) {
-	fmt.Printf("%s - elapsed: %s\n", msg, s.ElapsedTime().String())
+	fmt.Printf("%s - elapsed: %s\n", msg, s.ElapsedTime())
 }
 
 // Log calls log.Printf() with the given string and the elapsed time attached.
@@ -67,7 +68,7 @@ func (s *Stopwatch) Print(msg string) {
 // Example : defer Start().Log("myFunction")
 // Output: 2014/02/10 00:44:56 myFunction - elapsed: 2.000169591s
 func (s *Stopwatch) Log(msg string) {
-	log.Printf("%s - elapsed: %s\n", msg, s.ElapsedTime().String())
+	log.Printf("%s - elapsed: %s\n", msg, s.ElapsedTime())
 }
 
 // Stop stops the timer. To resume the timer Start() needs to be called again.
