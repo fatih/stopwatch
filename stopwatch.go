@@ -18,7 +18,9 @@ type Stopwatch struct {
 
 // New creates a new Stopwatch. To start the stopwatch Start() should be invoked.
 func New() *Stopwatch {
-	return &Stopwatch{}
+	return &Stopwatch{
+		laps: make([]time.Duration, 0),
+	}
 }
 
 // Start creates a new stopwatch with starting time offset by a user defined

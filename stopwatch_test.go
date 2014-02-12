@@ -17,6 +17,10 @@ func TestStopwatchNew(t *testing.T) {
 	if !sw.start.IsZero() {
 		t.Error("New time returns a non zero time.Time type")
 	}
+
+	if sw.laps == nil {
+		t.Error("New should initialize the laps array")
+	}
 }
 
 func TestStopwatchStart(t *testing.T) {
@@ -28,6 +32,10 @@ func TestStopwatchStart(t *testing.T) {
 
 	if sw.start.IsZero() {
 		t.Error("Start time returns a zero time.Time type")
+	}
+
+	if sw.laps == nil {
+		t.Error("Start should initialize the laps array")
 	}
 }
 
