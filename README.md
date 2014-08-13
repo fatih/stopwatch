@@ -1,4 +1,4 @@
-# Stopwatch [![GoDoc](https://godoc.org/github.com/fatih/stopwatch?status.png)](http://godoc.org/github.com/fatih/stopwatch) [![Build Status](https://travis-ci.org/fatih/stopwatch.png)](https://travis-ci.org/fatih/stopwatch)
+# Stopwatch [![GoDoc](https://godoc.org/github.com/fatih/stopwatch?status.svg)](http://godoc.org/github.com/fatih/stopwatch) [![Build Status](https://travis-ci.org/fatih/stopwatch.svg)](https://travis-ci.org/fatih/stopwatch)
 
 Stopwatch implements a simple stopwatch functionality. Features :
 
