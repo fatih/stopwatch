@@ -1,3 +1,11 @@
+# Archived project. No maintenance. 
+
+This project is not maintained anymore and is archived. Feel free to fork and
+make your own changes if needed. For more detail read my blog post: [Taking an indefinite sabbatical from my projects](https://arslan.io/2018/10/09/taking-an-indefinite-sabbatical-from-my-projects/)
+
+Thanks to everyone for their valuable feedback and contributions.
+
+
 # Stopwatch [![GoDoc](https://godoc.org/github.com/fatih/stopwatch?status.svg)](http://godoc.org/github.com/fatih/stopwatch) [![Build Status](https://travis-ci.org/fatih/stopwatch.svg)](https://travis-ci.org/fatih/stopwatch)
 
 Stopwatch implements a simple stopwatch functionality. Features :
